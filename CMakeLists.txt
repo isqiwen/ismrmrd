@@ -268,9 +268,9 @@ install(FILES schema/ismrmrd.xsd DESTINATION share/ismrmrd/schema COMPONENT Deve
 # process subdirectories
 add_subdirectory(doc)
 
-if (BUILD_UTILITIES)
-  add_subdirectory(utilities)
-endif()
+# if (BUILD_UTILITIES)
+#   add_subdirectory(utilities)
+# endif()
 
 
 if (HDF5_FOUND AND BUILD_EXAMPLES)
