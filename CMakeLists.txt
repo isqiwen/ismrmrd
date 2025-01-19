@@ -7,9 +7,9 @@ list(APPEND CMAKE_MODULE_PATH "${ISMRMRD_CMAKE_DIR}")
 
 # 选项配置
 option(USE_HDF5_DATASET_SUPPORT "Enable HDF5 dataset support" ON)
-option(BUILD_TESTS "Build unit tests" ON)
-option(BUILD_UTILITIES "Build utilities" ON)
-option(BUILD_EXAMPLES "Build examples" ON)
+option(BUILD_TESTS "Build unit tests" OFF)
+option(BUILD_UTILITIES "Build utilities" OFF)
+option(BUILD_EXAMPLES "Build examples" OFF)
 
 # 设置默认编译类型
 if(NOT CMAKE_BUILD_TYPE)
@@ -45,7 +45,7 @@ find_package(PugiXML REQUIRED)
 
 if(USE_HDF5_DATASET_SUPPORT)
     find_package(HDF5 REQUIRED COMPONENTS C)
-    set(ISMRMRD_HDF5_LIBS hdf5::hdf5-shared)
+    set(ISMRMRD_HDF5_LIBS HDF5::HDF5)
 else()
     message(WARNING "HDF5 support is disabled. Dataset functionality will not be available.")
     set(ISMRMRD_HDF5_LIBS "")
@@ -101,6 +101,6 @@ if(BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
-# if(BUILD_EXAMPLES)
-#     add_subdirectory(examples)
-# endif()
+if(BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
