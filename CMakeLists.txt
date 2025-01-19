@@ -43,6 +43,22 @@ else()
     set(ISMRMRD_HDF5_LIBS "")
 endif()
 
+find_package(Git)
+if (GIT_FOUND)
+    execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse HEAD WORKING_DIRECTORY
+            ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE ISMRMRD_GIT_SHA1 ERROR_VARIABLE ISMRMRD_GIT_STDERR)
+    string(STRIP "${ISMRMRD_GIT_SHA1}" ISMRMRD_GIT_SHA1)
+    string(LENGTH "${ISMRMRD_GIT_SHA1}" ISMRMRD_GIT_SHA1_LEN)
+    if (${ISMRMRD_GIT_SHA1_LEN} LESS 40)
+        message(WARNING "Could not determine SHA-1 hash: ${ISMRMRD_GIT_STDERR}")
+        set(ISMRMRD_GIT_SHA1 "NA")
+    endif ()
+else()
+  set(ISMRMRD_GIT_SHA1 "NA")
+endif()
+configure_file(include/version.in ${CMAKE_BINARY_DIR}/include/ismrmrd/version.h)
+install(FILES ${CMAKE_BINARY_DIR}/include/ismrmrd/version.h DESTINATION include/ismrmrd COMPONENT Devel)
+
 add_library(ismrmrd SHARED
     libsrc/ismrmrd.c
     libsrc/ismrmrd.cpp
