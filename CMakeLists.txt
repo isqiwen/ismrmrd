@@ -62,7 +62,7 @@ add_library(ismrmrd SHARED
     libsrc/waveform.c
 )
 target_include_directories(ismrmrd PUBLIC ${ISMRMRD_INCLUDE_DIRS})
-target_link_libraries(ismrmrd PUBLIC PugiXML::PugiXML ${ISMRMRD_HDF5_LIBS})
+target_link_libraries(ismrmrd PUBLIC pugixml::pugixml ${ISMRMRD_HDF5_LIBS})
 set_target_properties(ismrmrd PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR})
 
 # 安装目标
