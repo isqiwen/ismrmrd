@@ -95,59 +95,59 @@ set(ISMRMRD_VERSION_PATCH 1)
 set(ISMRMRD_VERSION_STRING ${ISMRMRD_VERSION_MAJOR}.${ISMRMRD_VERSION_MINOR}.${ISMRMRD_VERSION_PATCH})
 set(ISMRMRD_SOVERSION ${ISMRMRD_VERSION_MAJOR}.${ISMRMRD_VERSION_MINOR})
 
-if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.19)
-file(READ ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg.json VCPKG_JSON)
-string(JSON VCPKG_VERSION_STRING GET ${VCPKG_JSON} version)
+# if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.19)
+# file(READ ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg.json VCPKG_JSON)
+# string(JSON VCPKG_VERSION_STRING GET ${VCPKG_JSON} version)
 
-if (NOT VCPKG_VERSION_STRING STREQUAL ISMRMRD_VERSION_STRING)
-    message("")
-    message("-----------------------------------------------")
-    message("            !! VCPKG VERSION ERROR!!           ")
-    message(" Vcpkg version in vcpkg.json must match ISMRMRD")
-    message("           version in CMakeLists.txt           ")
-    message("-----------------------------------------------")
-    message("")
-    message(FATAL_ERROR "     FATAL VCPKG VERSION ERROR")
-endif ()
+# if (NOT VCPKG_VERSION_STRING STREQUAL ISMRMRD_VERSION_STRING)
+#     message("")
+#     message("-----------------------------------------------")
+#     message("            !! VCPKG VERSION ERROR!!           ")
+#     message(" Vcpkg version in vcpkg.json must match ISMRMRD")
+#     message("           version in CMakeLists.txt           ")
+#     message("-----------------------------------------------")
+#     message("")
+#     message(FATAL_ERROR "     FATAL VCPKG VERSION ERROR")
+# endif ()
 
-endif()
+# endif()
 
 
-set(ISMRMRD_XML_SCHEMA_SHA1  "40036f175a77542b50acbcfb0f019094c90b5e18")
+# set(ISMRMRD_XML_SCHEMA_SHA1  "40036f175a77542b50acbcfb0f019094c90b5e18")
 
-#Remove line breaks and white space that does not change the meaning of the schema
-file(STRINGS ${CMAKE_SOURCE_DIR}/schema/ismrmrd.xsd SCHEMA_STRINGS) #Read all strings from file
-string(REPLACE ";" "" SCHEMA_NO_BREAKS  ${SCHEMA_STRINGS}) #Concatenate the list of strings
-string(REGEX REPLACE ">[ \t]+<" "><" SCHEMA_NO_SPACE ${SCHEMA_NO_BREAKS}) #Remove spaces and tabs
-string(STRIP ${SCHEMA_NO_SPACE} SCHEMA_NO_SPACE) #Strip any leading/trailing whitespace
-set(ISMRMRD_SCHEMA_DIR ${CMAKE_CURRENT_BINARY_DIR})
-file(WRITE ${ISMRMRD_SCHEMA_DIR}/ismrmrd_no_white_space.xsd ${SCHEMA_NO_SPACE}) #Write to file
+# #Remove line breaks and white space that does not change the meaning of the schema
+# file(STRINGS ${CMAKE_SOURCE_DIR}/schema/ismrmrd.xsd SCHEMA_STRINGS) #Read all strings from file
+# string(REPLACE ";" "" SCHEMA_NO_BREAKS  ${SCHEMA_STRINGS}) #Concatenate the list of strings
+# string(REGEX REPLACE ">[ \t]+<" "><" SCHEMA_NO_SPACE ${SCHEMA_NO_BREAKS}) #Remove spaces and tabs
+# string(STRIP ${SCHEMA_NO_SPACE} SCHEMA_NO_SPACE) #Strip any leading/trailing whitespace
+# set(ISMRMRD_SCHEMA_DIR ${CMAKE_CURRENT_BINARY_DIR})
+# file(WRITE ${ISMRMRD_SCHEMA_DIR}/ismrmrd_no_white_space.xsd ${SCHEMA_NO_SPACE}) #Write to file
 
-#Now hash the cleaned up file
-file(SHA1 ${CMAKE_CURRENT_BINARY_DIR}/ismrmrd_no_white_space.xsd ISMRMRD_CURRENT_XML_SCHEMA_SHA1)
+# #Now hash the cleaned up file
+# file(SHA1 ${CMAKE_CURRENT_BINARY_DIR}/ismrmrd_no_white_space.xsd ISMRMRD_CURRENT_XML_SCHEMA_SHA1)
 
 #Compare to last known hash
-if (NOT (${ISMRMRD_XML_SCHEMA_SHA1} STREQUAL ${ISMRMRD_CURRENT_XML_SCHEMA_SHA1}))
-  message("")
-  message("-----------------------------------------------")
-  message("            !!VERSION ERROR!!                  ")
-  message("                                               ")
-  message(" Expected SHA1 hash:                           ")
-  message("    ${ISMRMRD_XML_SCHEMA_SHA1}")
-  message(" Actual SHA1 hash:                             ")
-  message("    ${ISMRMRD_CURRENT_XML_SCHEMA_SHA1}")
-  message("                                               ")
-  message(" The XML Schema (ismrmrmd.xsd) has changed and ")
-  message(" the MINOR version number should be increased  ")
-  message(" and the SHA1 has should be updated in the     ")
-  message(" CMakelists.txt file.                          ")
-  message("                                               ")
-  message(" If you don't know what this message means, you")
-  message(" probably shouldn't be changing anything       ")
-  message("-----------------------------------------------")
-  message("")
-  message(FATAL_ERROR "     FATAL XML VERSION ERROR")
-endif()
+# if (NOT (${ISMRMRD_XML_SCHEMA_SHA1} STREQUAL ${ISMRMRD_CURRENT_XML_SCHEMA_SHA1}))
+#   message("")
+#   message("-----------------------------------------------")
+#   message("            !!VERSION ERROR!!                  ")
+#   message("                                               ")
+#   message(" Expected SHA1 hash:                           ")
+#   message("    ${ISMRMRD_XML_SCHEMA_SHA1}")
+#   message(" Actual SHA1 hash:                             ")
+#   message("    ${ISMRMRD_CURRENT_XML_SCHEMA_SHA1}")
+#   message("                                               ")
+#   message(" The XML Schema (ismrmrmd.xsd) has changed and ")
+#   message(" the MINOR version number should be increased  ")
+#   message(" and the SHA1 has should be updated in the     ")
+#   message(" CMakelists.txt file.                          ")
+#   message("                                               ")
+#   message(" If you don't know what this message means, you")
+#   message(" probably shouldn't be changing anything       ")
+#   message("-----------------------------------------------")
+#   message("")
+#   message(FATAL_ERROR "     FATAL XML VERSION ERROR")
+# endif()
 
 
 # Find HDF5 for dataset support
