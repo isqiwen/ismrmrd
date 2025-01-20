@@ -90,27 +90,27 @@ endif ()
 # For more information see http://semver.org/
 set(ISMRMRD_VERSION_MAJOR 1)
 set(ISMRMRD_VERSION_MINOR 14)
-set(ISMRMRD_VERSION_PATCH 1)
+set(ISMRMRD_VERSION_PATCH 2)
 
 set(ISMRMRD_VERSION_STRING ${ISMRMRD_VERSION_MAJOR}.${ISMRMRD_VERSION_MINOR}.${ISMRMRD_VERSION_PATCH})
 set(ISMRMRD_SOVERSION ${ISMRMRD_VERSION_MAJOR}.${ISMRMRD_VERSION_MINOR})
 
-# if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.19)
-# file(READ ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg.json VCPKG_JSON)
-# string(JSON VCPKG_VERSION_STRING GET ${VCPKG_JSON} version)
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.19)
+file(READ ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg.json VCPKG_JSON)
+string(JSON VCPKG_VERSION_STRING GET ${VCPKG_JSON} version)
 
-# if (NOT VCPKG_VERSION_STRING STREQUAL ISMRMRD_VERSION_STRING)
-#     message("")
-#     message("-----------------------------------------------")
-#     message("            !! VCPKG VERSION ERROR!!           ")
-#     message(" Vcpkg version in vcpkg.json must match ISMRMRD")
-#     message("           version in CMakeLists.txt           ")
-#     message("-----------------------------------------------")
-#     message("")
-#     message(FATAL_ERROR "     FATAL VCPKG VERSION ERROR")
-# endif ()
+if (NOT VCPKG_VERSION_STRING STREQUAL ISMRMRD_VERSION_STRING)
+    message("")
+    message("-----------------------------------------------")
+    message("            !! VCPKG VERSION ERROR!!           ")
+    message(" Vcpkg version in vcpkg.json must match ISMRMRD")
+    message("           version in CMakeLists.txt           ")
+    message("-----------------------------------------------")
+    message("")
+    message(FATAL_ERROR "     FATAL VCPKG VERSION ERROR")
+endif ()
 
-# endif()
+endif()
 
 
 # set(ISMRMRD_XML_SCHEMA_SHA1  "40036f175a77542b50acbcfb0f019094c90b5e18")
@@ -268,9 +268,9 @@ install(FILES schema/ismrmrd.xsd DESTINATION share/ismrmrd/schema COMPONENT Deve
 # process subdirectories
 add_subdirectory(doc)
 
-# if (BUILD_UTILITIES)
-#   add_subdirectory(utilities)
-# endif()
+if (BUILD_UTILITIES)
+  add_subdirectory(utilities)
+endif()
 
 
 if (HDF5_FOUND AND BUILD_EXAMPLES)
@@ -281,7 +281,7 @@ endif ()
 if (BUILD_TESTS)
    if (NOT build4GE)
 
-       enable_testing()
+      enable_testing()
       add_subdirectory(tests)
    endif ()
 endif ()
